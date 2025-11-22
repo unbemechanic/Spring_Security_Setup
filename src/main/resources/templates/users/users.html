@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .info {
+            margin: 20px 0;
+        }
+        .info p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        label {
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .logout {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: white;
+            background: red;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>User Profile</h1>
+
+    <div class="info">
+        <p><label>Username:</label> <span sec:authentication="name"></span></p>
+        <p><label>Email:</label> <span th:text="${#authentication.principal.email}"></span></p>
+        <p><label>Roles:</label>
+            <span th:each="role : ${#authentication.principal.authorities}"
+                  th:text="${role.getAuthority()} + ' '"></span>
+        </p>
+    </div>
+
+    <!--<form th:action="@{/users/save}" th:object="${#authentication.principal}" method="post">
+        <label>Username:</label>
+        <input type="text" th:field="*{username}" required/>
+
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" required/>
+
+        <label>Password:</label>
+        <input type="password" th:field="*{password}" required/>
+
+        <button type="submit">Update Profile</button>
+    </form>-->
+
+    <a class="logout" th:href="@{/logout}">Logout</a>
+</div>
+</body>
+</html>

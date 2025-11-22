@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${user.id} == null ? 'Add User' : 'Edit User'">User Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        form {
+            margin-top: 20px;
+            max-width: 350px;
+        }
+        p {
+            margin: 12px 0;
+        }
+        input, select, button {
+            padding: 6px;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        label {
+            font-weight: bold;
+        }
+        button {
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1 th:text="${user.id} == null ? 'Add User' : 'Edit User'"></h1>
+
+<form th:action="@{/admin/save}" th:object="${user}" method="post">
+
+    <!-- Hidden UUID -->
+    <input type="hidden" th:field="*{id}" />
+
+    <!-- Username -->
+    <p>
+        <label>Username:</label>
+        <input type="text" th:field="*{username}" placeholder="Enter username" required />
+    </p>
+
+    <!-- Email -->
+    <p>
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" placeholder="Enter email" required />
+    </p>
+
+    <!-- Password -->
+    <p>
+        <label>Password:</label>
+        <input type="password" th:field="*{password}" placeholder="Enter password"
+               th:attr="required=${user.id == null}" />
+        <!-- required only when creating a new user -->
+    </p>
+
+    <!-- Roles Multi Select -->
+    <p>
+        <label for="role">Role:</label>
+        <select name="role" id="role">
+            <option value="ROLE_USER">User</option>
+            <option value="ROLE_ADMIN">Admin</option>
+        </select>
+    </p>
+
+    <!-- Submit -->
+    <p>
+        <button type="submit" th:text="${user.id} == null ? 'Add User' : 'Update User'"></button>
+    </p>
+</form>
+
+<a th:href="@{/users}">Back to Users List</a>
+
+</body>
+</html>

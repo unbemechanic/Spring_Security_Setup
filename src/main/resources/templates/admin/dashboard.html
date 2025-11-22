@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ADMIN_DASHBOARD</title>
+</head>
+<style>
+    a.logout-link {
+        margin-top: 20px;
+        display: inline-block;
+        color: white;
+        background-color: red;
+        padding: 10px 15px;
+        border-radius: 5px;
+    }
+</style>
+<body>
+<h1>ADMIN-DASHBOARD</h1>
+<h2>All Users</h2>
+<a th:href="@{/admin/add}">Add User</a>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.email}"></td>
+<!--        <td th:text="${user.role}"></td>-->
+        <td>
+            <a th:href="@{/admin/edit/{id}(id=${user.id})}">Edit</a>
+            <a th:href="@{/admin/delete/{id}(id=${user.id})}">Delete</a>
+        </td>
+    </tr>
+</table>
+<a th:href="@{/logout}" class="logout-link">Logout</a>
+</body>
+</html>
