@@ -40,7 +40,6 @@
 
 <form th:action="@{/admin/save}" th:object="${user}" method="post">
 
-    <!-- Hidden UUID -->
     <input type="hidden" th:field="*{id}" />
 
     <!-- Username -->
@@ -65,11 +64,15 @@
 
     <!-- Roles Multi Select -->
     <p>
-        <label for="role">Role:</label>
-        <select name="role" id="role">
-            <option value="ROLE_USER">User</option>
-            <option value="ROLE_ADMIN">Admin</option>
+        <label>Roles:</label>
+        <select th:field="*{roleIds}" multiple>
+            <option th:each="role : ${allRoles}"
+                    th:value="${role.id}"
+                    th:text="${role.name}">
+            </option>
         </select>
+
+
     </p>
 
     <!-- Submit -->
@@ -78,7 +81,7 @@
     </p>
 </form>
 
-<a th:href="@{/users}">Back to Users List</a>
+<a th:href="@{/admin}">Back to Users List</a>
 
 </body>
 </html>

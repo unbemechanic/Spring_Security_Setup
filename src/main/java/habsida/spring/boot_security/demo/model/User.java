@@ -58,6 +58,23 @@ public class User implements UserDetails {
         return roles;
     }
 
+    //for multiple roles
+    @Transient
+    private Set<Long> roleIds = new HashSet<>();
+
+    public Set<Long> getRoleIds() {
+        if (!roleIds.isEmpty()) {
+            return roleIds;
+        }
+        for(Role role : roles){
+            roleIds.add(role.getId());
+        }
+        return roleIds;
+    }
+    public void setRoleIds(Set<Long> roleIds) {
+        this.roleIds = roleIds;
+    }
+
     @Override
     public String getPassword() {
         return password;

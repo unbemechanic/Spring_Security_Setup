@@ -12,6 +12,14 @@
         padding: 10px 15px;
         border-radius: 5px;
     }
+    a.user{
+        margin-top: 20px;
+        display: inline-block;
+        color: black;
+        background-color: limegreen;
+        padding: 10px 15px;
+        border-radius: 5px;
+    }
 </style>
 <body>
 <h1>ADMIN-DASHBOARD</h1>
@@ -29,13 +37,18 @@
         <td th:text="${user.id}"></td>
         <td th:text="${user.username}"></td>
         <td th:text="${user.email}"></td>
-<!--        <td th:text="${user.role}"></td>-->
+        <td>
+            <span th:each="role, iterStat : ${user.roles}">
+                <span th:text="${role.name}"></span><span th:text="${!iterStat.last ? ', ' : ''}"></span>
+            </span>
+        </td>
         <td>
             <a th:href="@{/admin/edit/{id}(id=${user.id})}">Edit</a>
             <a th:href="@{/admin/delete/{id}(id=${user.id})}">Delete</a>
         </td>
     </tr>
 </table>
+<a th:href="@{/user}" class="user">User</a>
 <a th:href="@{/logout}" class="logout-link">Logout</a>
 </body>
 </html>

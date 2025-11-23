@@ -73,7 +73,7 @@
 
     <div class="info">
         <p><label>Username:</label> <span sec:authentication="name"></span></p>
-        <p><label>Email:</label> <span th:text="${#authentication.principal.email}"></span></p>
+<!--        <p><label>Email:</label> <span th:text="${#authentication.principal.email}"></span></p>-->
         <p><label>Roles:</label>
             <span th:each="role : ${#authentication.principal.authorities}"
                   th:text="${role.getAuthority()} + ' '"></span>

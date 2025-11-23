@@ -9,7 +9,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -22,12 +24,34 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+
+    // Registering a new user with default ROLE_USER
     public User register(User user) {
         Role userRole = roleRepository.findByName("ROLE_USER");
         user.addRole(userRole);
         return userRepository.save(user);
     }
 
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
+    }
+
+    public void setRolesToUser(User user, List<Long> roleIds) {
+        Set<Role> roles = new HashSet<>();
+        if(roleIds != null) {
+            for(Long id : roleIds) {
+                roleRepository.findById(id).ifPresent(roles::add);
+            }
+        }
+        user.setRoles(roles);
+    }
+
+    public Role getRoleById(Long id) {
+        return roleRepository.findById(id).orElse(null);
+    }
+
+
+    // CRUD operations for User entity
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
