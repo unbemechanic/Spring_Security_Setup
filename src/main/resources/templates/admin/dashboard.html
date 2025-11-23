@@ -1,54 +1,91 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>ADMIN_DASHBOARD</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .nav-btn.active {
+            background-color: blue !important;
+            color: white !important;
+            border-radius: 0px !important;
+            border-top-right-radius: 5px !important;
+            border-bottom-right-radius: 5px !important;
+        }
+        .nav-btn.active:focus {
+            background: blue !important;
+            color: white !important;
+        }
+
+        .nav-btn:not(.active):focus {
+            background: rgba(0, 0, 255, 0.1) !important;
+        }
+        .btn:focus {
+            background-color: blue !important;
+            color: white !important;
+            box-shadow: 0 0 0 0.25rem rgba(0, 0, 255, 0.5) !important;
+        }
+    </style>
 </head>
-<style>
-    a.logout-link {
-        margin-top: 20px;
-        display: inline-block;
-        color: white;
-        background-color: red;
-        padding: 10px 15px;
-        border-radius: 5px;
-    }
-    a.user{
-        margin-top: 20px;
-        display: inline-block;
-        color: black;
-        background-color: limegreen;
-        padding: 10px 15px;
-        border-radius: 5px;
-    }
-</style>
-<body>
-<h1>ADMIN-DASHBOARD</h1>
-<h2>All Users</h2>
-<a th:href="@{/admin/add}">Add User</a>
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Actions</th>
-    </tr>
-    <tr th:each="user : ${users}">
-        <td th:text="${user.id}"></td>
-        <td th:text="${user.username}"></td>
-        <td th:text="${user.email}"></td>
-        <td>
-            <span th:each="role, iterStat : ${user.roles}">
-                <span th:text="${role.name}"></span><span th:text="${!iterStat.last ? ', ' : ''}"></span>
-            </span>
-        </td>
-        <td>
-            <a th:href="@{/admin/edit/{id}(id=${user.id})}">Edit</a>
-            <a th:href="@{/admin/delete/{id}(id=${user.id})}">Delete</a>
-        </td>
-    </tr>
-</table>
-<a th:href="@{/user}" class="user">User</a>
-<a th:href="@{/logout}" class="logout-link">Logout</a>
+
+<body class="bg-light">
+<div class="bg-dark text-white p-2 d-flex justify-content-between align-items-center">
+    <p>admin@admin with roles [ADMIN]</p>
+    <a th:href="@{/logout}" class="text-white text-decoration-none">Logout</a>
+</div>
+
+<div class="container d-flex flex-row min-vw-100 gap-4f">
+
+    <div class="container d-flex flex-column min-vh-100 min-vw-20 bg-white justify-content-start mt-3">
+        <a th:href="@{/user}" class="btn nav-btn active">Admin</a>
+        <a th:href="@{/user}" class="btn nav-btn">User</a>
+    </div>
+    <div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Admin panel</h2>
+            <a th:href="@{/admin/add}" class="btn btn-primary">Add User</a>
+        </div>
+
+        <table class="table table-striped table-bordered shadow-sm">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.email}"></td>
+
+                <td>
+                <span class="badge bg-secondary me-1"
+                      th:each="role : ${user.roles}"
+                      th:text="${role.name}">
+                </span>
+                </td>
+
+                <td>
+                    <a th:href="@{/admin/edit/{id}(id=${user.id})}" class="btn btn-warning btn-sm">Edit</a>
+                    <a th:href="@{/admin/delete/{id}(id=${user.id})}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
