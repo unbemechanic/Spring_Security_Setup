@@ -3,6 +3,8 @@ package habsida.spring.boot_security.demo.controller;
 import habsida.spring.boot_security.demo.model.Role;
 import habsida.spring.boot_security.demo.model.User;
 import habsida.spring.boot_security.demo.service.UserService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +22,12 @@ public class AdminController {
         this.userService = userService;
     }
     @GetMapping
-    public String admin(Model model) {
+    public String admin(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         model.addAttribute("users", userService.getAllUsers());
+        String username = userDetails.getUsername();
+        model.addAttribute("currentUser", userService.loadUserByUsername(username));
+        model.addAttribute("user", new User());
+        model.addAttribute("allRoles", userService.getAllRoles());
         return "admin/dashboard";
     }
 
