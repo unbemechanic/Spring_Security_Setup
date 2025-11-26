@@ -1,0 +1,107 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Navigation */
+.nav-btn {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.nav-btn.active {
+    background-color: blue !important;
+    color: white !important;
+    border-radius: 0px !important;
+    border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+}
+
+.nav-btn.active:focus {
+    background-color: blue !important;
+    color: white !important;
+}
+
+.nav-btn:not(.active):focus {
+    background-color: rgba(0, 0, 255, 0.1) !important;
+}
+
+/* Layout */
+.sidebar {
+    width: 200px;
+    max-width: 200px;
+    min-height: 100vh;
+    background-color: white;
+    padding-top: 20px;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+}
+.tb-header {
+    font-size: 1.2rem;
+    display: block;
+    width: 100%;
+    border: 1px solid #dee2e6;
+    padding: 5px 10px;
+}
+.t-title {
+    border: 1px solid lightgray;
+    border-radius: 3px;
+}
+.title {
+    border-bottom: 1px solid lightgray;
+    width: 100%;
+    padding: 10px;
+}
+.card {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    background-color: #fff;
+    overflow: hidden;
+}
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    border-radius: 8px;
+    background-color: #fff;
+}
+.card h1 {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-align: start;
+    background-color: #c1c1c1;
+    padding: 10px;
+}
+form p {
+    margin-bottom: 15px;
+    text-align: center;
+}
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    text-align: center;
+}
+input, select {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 14px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+select[multiple] {
+    height: 100px;
+}
+button {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+}
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+}

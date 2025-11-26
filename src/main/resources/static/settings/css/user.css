@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.nav-btn {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.nav-btn.active {
+    background-color: blue !important;
+    color: white !important;
+    border-radius: 0px !important;
+    border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+}
+
+.sidebar {
+    width: 200px;
+    max-width: 200px;
+    min-height: 100vh;
+    background-color: white;
+    padding-top: 20px;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+.t-title {
+    border: 1px solid lightgray;
+    border-radius: 3px;
+}
+
+.title {
+    border-bottom: 1px solid lightgray;
+    width: 100%;
+    padding: 10px;
+}

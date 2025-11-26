@@ -2,14 +2,14 @@ package habsida.spring.boot_security.demo.controller;
 
 import habsida.spring.boot_security.demo.model.User;
 import habsida.spring.boot_security.demo.service.UserService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.Map;
+
+@RestController
+@RequestMapping("/signup")
 public class SignupController {
     private final UserService userService;
 
@@ -17,20 +17,20 @@ public class SignupController {
         this.userService = userService;
     }
 
-
-    @GetMapping("/signup")
-    public String showSignupForm(Model model) {
-        model.addAttribute("user", new User()); // <-- this is required
-        return "signup";
+    @GetMapping
+    public ResponseEntity<Void> showSignupForm() {
+        return ResponseEntity.status(HttpStatus.FOUND).header("Location", "/signup/index.html").build();
     }
 
-    @PostMapping("/signup")
-    public String processSignup(@ModelAttribute("user") User user, BindingResult result) {
-        if (result.hasErrors()) {
-            return "signup";
+    @PostMapping
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
+        try{
+            userService.register(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "User registered successfully"));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", e.getMessage()));
         }
-        userService.register(user);
-        return "redirect:/login";
     }
+
 }
 

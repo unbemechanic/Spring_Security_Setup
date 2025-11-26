@@ -56,40 +56,32 @@ public class UserService implements UserDetailsService {
 
 
     // CRUD operations for User entity
+    public void saveUser(User user) {
+        if(user.getPassword() == null || user.getPassword().isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be empty");
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+    }
+
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
 
-    public void saveUser(User user) {
-
-        // Editing existing user
-        if (user.getId() != null) {
-
-            User existing = userRepository.findById(user.getId())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
-
-            if (user.getPassword() == null || user.getPassword().isEmpty()) {
-                // keep old password
-                user.setPassword(existing.getPassword());
-            } else {
-                // encode new password
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
-            }
-
-        } else {
-            // Creating new user
-            if (user.getPassword() == null || user.getPassword().isEmpty()) {
-                throw new IllegalArgumentException("Password cannot be empty for new users");
-            }
-
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
-
-        userRepository.save(user);
-    }
-
     public User getUserById(Long id){
         return userRepository.findById(id).orElse(null);
+    }
+
+    public User updateUser(User user, Long id) {
+        User existingUser = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        existingUser.setUsername(user.getUsername());
+        existingUser.setEmail(user.getEmail());
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        existingUser.setRoles(user.getRoles());
+        return userRepository.save(existingUser);
     }
     public void deleteUserById(Long id){
         userRepository.deleteById(id);

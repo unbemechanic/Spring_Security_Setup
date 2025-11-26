@@ -1,3 +1,4 @@
+/*
 package habsida.spring.boot_security.demo.controller;
 
 import habsida.spring.boot_security.demo.model.User;
@@ -12,11 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller
 @RequestMapping("/")
 public class HomeController {
-    @GetMapping
-    public String home() {
-        return "index";
-    }
-
     @GetMapping("/user")
     public String user(Authentication authentication, Model model) {
         // Pass logged-in user to Thymeleaf template
@@ -27,3 +23,4 @@ public class HomeController {
 
 
 }
+*/
