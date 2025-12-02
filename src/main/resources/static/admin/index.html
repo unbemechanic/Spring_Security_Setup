@@ -19,15 +19,27 @@
 <div class="d-flex">
 
     <!-- Navigation -->
-    <div class="sidebar d-flex flex-column p-2">
-        <button class="btn nav-btn active" id="adminBtn">Admin Panel</button>
-        <button class="btn nav-btn" id="userBtn">User Details</button>
-    </div>
+    <ul class="sidebar d-flex flex-column p-2 nav" id="navTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="btn nav-btn active nav-link" id="adminBtn"
+                    data-bs-toggle="tab"
+                    data-bs-target="#adminPanel"
+                    role="tab"
+                    type="button">Admin Panel</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="btn nav-btn nav-link"
+                    id="userBtn"
+                    data-bs-toggle="tab"
+                    data-bs-target="#userPanel"
+                    role="tab">User Details</button>
+        </li>
+    </ul>
 
     <!-- Main Content -->
-    <div class="content">
+    <div class="content tab-content">
         <!-- Admin Panel -->
-        <div id="adminPanel">
+        <div id="adminPanel" class="tab-pane fade show active" role="tabpanel">
             <h2>Admin Panel</h2>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -67,7 +79,7 @@
             </div>
         </div>
         <!--User Panel-->
-        <div id="userPanel" style="display: none"></div>
+        <div id="userPanel" class="tab-pane fade" role="tabpanel"></div>
     </div>
 </div>
 <!--Edit modal-->

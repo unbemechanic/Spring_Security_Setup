@@ -39,6 +39,7 @@ editModal.show();
     userPanel.style.display = 'block';
     userBtn.classList.add('active');
     adminBtn.classList.remove('active');
+    console.log("user details btn clicked!")
 });
 
     // Example: Load users dynamically (replace with your REST API)
