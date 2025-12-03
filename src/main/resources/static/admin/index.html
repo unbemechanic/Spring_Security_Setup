@@ -83,53 +83,52 @@
     </div>
 </div>
 <!--Edit modal-->
-<div id="updateModal"></div>
+<div class="modal fade" id="editModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form method="post" id="editUserForm">
+                <div class="modal-body">
+                    <input type="hidden" id="editId">
+                    <div class="mb-2">
+                        <label>Username</label>
+                        <input type="text" id="editUsername" class="form-control">
+                    </div>
+                    <div class="mb-2">
+                        <label>Email</label>
+                        <input type="email" id="editEmail" class="form-control">
+                    </div>
+                    <div class="mb-2">
+                        <label>Password</label>
+                        <input type="password" id="editPassword" class="form-control">
+                    </div>
+                    <div class="mb-2">
+                        <label>Current role(s)</label>
+                        <input type="text" id="editRolesText" class="form-control" readonly>
+                    </div>
+                    <div class="mb-2">
+                        <label>Roles</label>
+                        <select id="editRoles" multiple class="form-control">
+                            <!--Automatically populated-->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary updateBtn">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="/settings/javascript/admin.js"></script>
-
-<script>
-    // Switch Panels JS
-    const adminBtn = document.getElementById('adminBtn');
-    const userBtn = document.getElementById('userBtn');
-    const adminPanel = document.getElementById('adminPanel');
-    const userPanel = document.getElementById('userPanel');
-
-    adminBtn.addEventListener('click', () => {
-        adminPanel.style.display = 'block';
-        userPanel.style.display = 'none';
-        adminBtn.classList.add('active');
-        userBtn.classList.remove('active');
-    });
-
-    userBtn.addEventListener('click', () => {
-        adminPanel.style.display = 'none';
-        userPanel.style.display = 'block';
-        userBtn.classList.add('active');
-        adminBtn.classList.remove('active');
-    });
-
-    // Example: Load users dynamically (replace with your REST API)
-    const users = [
-        {id:1, username:'user1', email:'user@example.com', roles:['Admin','User']},
-        {id:2, username:'user2', email:'user2@example.com', roles:['User']}
-    ];
-    const tbody = document.getElementById('userTableBody');
-    users.forEach(user => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${user.id}</td>
-            <td>${user.username}</td>
-            <td>${user.email}</td>
-            <td>${user.roles.map(r=>`<span class="badge bg-secondary me-1">${r}</span>`).join('')}</td>
-            <td><button class="btn btn-warning editBtn" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button></td>
-            <td><button class="btn btn-danger btn-sm">Delete</button></td>
-        `;
-        tbody.appendChild(tr);
-    });
-</script>
-
 </body>
 </html>

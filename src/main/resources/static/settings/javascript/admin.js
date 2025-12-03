@@ -6,20 +6,14 @@ async function loadHtml(containerId, url) {
 }
 (async function init() {
     await loadHtml('userPanel', 'user-details.html');
-    await loadHtml('updateModal', 'edit-user.html');
     await loadHtml('new-user', 'new-user.html');
     await newUserSetup();
     addUserFormSubmit();
     await loadUsers();
     setupDeleteHandler();
-    addEditButtonListener();
     setupEditFormSubmit();
     await loadUser();
 })();
-
-const editModalEl = document.getElementById('editModal');
-const editModal = new bootstrap.Modal(editModalEl); // create a new instance
-editModal.show();
 
 // Switch Panels JS
     const adminBtn = document.getElementById('adminBtn');
@@ -49,6 +43,7 @@ editModal.show();
            if(!res.ok) throw new Error('Failed to load users');
            const users = await res.json();
            const tbody = document.getElementById('usersTableBody');
+           tbody.innerHTML = "";
            users.forEach(user => {
                const tr = document.createElement('tr');
                tr.innerHTML = `
@@ -56,7 +51,14 @@ editModal.show();
             <td>${user.username}</td>
             <td>${user.email}</td>
             <td>${user.roles.map(r=>`<span class="badge bg-secondary me-1">${r.name}</span>`).join('')}</td>
-            <td><button class="btn btn-warning editBtn" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button></td>
+            <td><button class="btn btn-warning editBtn"
+             data-bs-toggle="modal" 
+             data-bs-target="#editModal"
+             data-id="${user.id}"
+             data-username="${user.username}"
+             data-email="${user.email}"
+             data-roles="${user.roles.map(r=>r.name).join(',')}"
+             >Edit</button></td>
             <td><button class="btn btn-danger btn-sm remove-user" data-id="${user.id}">Delete</button></td>
         `;
                tbody.appendChild(tr);
@@ -92,41 +94,36 @@ editModal.show();
         }
     }
 
-    function addEditButtonListener() {
-        document.addEventListener('click', async (e) => {
-            if(e.target.classList.contains('editBtn')) {
+document.addEventListener('click', async (e) => {
+    if (e.target.classList.contains('editBtn')) {
+        const button = e.target;
 
-                const row = e.target.closest("tr");
-                const id = row.children[0].textContent; // user.id from first <td>
+        // Read the data attributes
+        const id = button.dataset.id;
+        const username = button.dataset.username;
+        const email = button.dataset.email;
+        const userRoles = button.dataset.roles.split(',');
 
-                // Fetch user details
-                const res = await fetch(`http://localhost:8080/admin/users/${id}`);
-                const user = await res.json();
+        // Filling the edit modal
+        document.getElementById("editId").value = id;
+        document.getElementById("editUsername").value = username;
+        document.getElementById("editEmail").value = email;
+        document.getElementById("editRolesText").value = userRoles
 
-                // Fill modal inputs
-                document.getElementById("editId").value = user.id;
-                document.getElementById("editUsername").value = user.username;
-                document.getElementById("editEmail").value = user.email;
-                document.getElementById("editUserForm").action = `/admin/users/${id}`;
-                document.getElementById("editRolesText").value = user.roles.map(r=>r.name).join(', ');
 
-                const allRoles = await fetch('http://localhost:8080/admin/roles');
-                const roles = await allRoles.json();
+        const allRoles = await fetch('http://localhost:8080/admin/roles');
+        const roles = await allRoles.json();
 
-                const select = document.getElementById('editRoles');
-                roles.forEach(role => {
-                    const option = document.createElement('option');
-                    option.value = role.id;
-                    option.textContent = role.name;
-                    select.appendChild(option);
-                })
-
-                // Show modal (optional)
-                const modal = new bootstrap.Modal(document.getElementById('editModal'));
-                modal.show();
-            }
+        const select = document.getElementById('editRoles');
+        select.innerHTML = '';
+        roles.forEach(role => {
+            const option = document.createElement('option');
+            option.value = role.id;
+            option.textContent = role.name;
+            select.appendChild(option);
         })
     }
+})
 
     function setupEditFormSubmit(){
         const editForm = document.getElementById('editUserForm');
@@ -152,10 +149,15 @@ editModal.show();
                 if (res.ok) {
                     alert("User updated successfully");
 
+                    await loadUsers();
+                    await loadUser();
+
                     const editModalEl = document.getElementById('editModal');
                     const modalInstance = bootstrap.Modal.getInstance(editModalEl); // get existing instance
                     if (modalInstance) modalInstance.hide();
-                    editForm.reset();
+                    editModalEl.addEventListener("hidden.bs.modal", () => {
+                        editForm.reset();
+                    }, {once: true});
                 } else {
                     alert("Something went wrong");
                 }
@@ -168,6 +170,7 @@ function setupDeleteHandler() {
     const tbody = document.getElementById("usersTableBody");
 
     tbody.addEventListener("click", async (e) => {
+        e.preventDefault();
         if (e.target.classList.contains("remove-user")) {
             const id = e.target.dataset.id;
 
@@ -193,10 +196,12 @@ function setupDeleteHandler() {
 function newUserSetup(){
        const newUserBtn = document.getElementById("new-user-tab");
        newUserBtn.addEventListener("click", async (e) => {
+           console.log("new user panel is not causing page reload!")
            const allRoles = await fetch('http://localhost:8080/admin/roles');
            const roles = await allRoles.json();
 
            const select = document.getElementById('newRoles');
+           select.innerHTML = "";
            roles.forEach(role => {
                const option = document.createElement('option');
                option.value = role.id;
@@ -232,8 +237,8 @@ function addUserFormSubmit(){
             if(res.ok) {
                 alert("User created successfully");
                 addUserForm.reset();
-                loadUsers();
-                window.location.href = '/admin';
+                await loadUsers();
+                // window.location.href = '/admin/index.html';
             }else if (res.status == 400) {
                 const errors = await res.json();
                 if (errors.username) document.getElementById("usernameError").textContent = errors.username;

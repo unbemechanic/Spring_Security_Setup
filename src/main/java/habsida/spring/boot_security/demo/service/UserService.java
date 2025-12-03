@@ -35,6 +35,9 @@ public class UserService implements UserDetailsService {
         user.addRole(userRole);
         return userRepository.save(user);
     }
+    public boolean emailExists(String email) {
+        return userRepository.existsByEmail(email);
+    }
 
     public List<Role> getAllRoles() {
         return roleRepository.findAll();

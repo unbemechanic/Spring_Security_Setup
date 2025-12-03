@@ -8,9 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/admin")
@@ -61,6 +59,10 @@ public class AdminController {
 
     @PostMapping("/users/register")
     public ResponseEntity<User> createUser(@RequestBody User user){
+        Map<String, String> errors = new HashMap<>();
+        if(userService.emailExists(user.getEmail())){
+            errors.put("email", "Email already exists");
+        }
         Set<Role> roles = new HashSet<>();
         for (Long roleId : user.getRoleIds()){
             Role role = userService.getRoleById(roleId);
