@@ -22,9 +22,7 @@
         .nav-btn.active {
             background-color: blue !important;
             color: white !important;
-            border-radius: 0px !important;
-            border-top-right-radius: 5px !important;
-            border-bottom-right-radius: 5px !important;
+            border-radius: 5px;
         }
 
         .nav-btn.active:focus {
@@ -101,10 +99,19 @@
             padding: 10px;
             font-size: 15px;
         }
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 15px;
+        .editBtn{
+            background-color: #4eaeba;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            &:hover{
+                background-color: #4e94ba;
+                color: white;
+            }
+        }
+        .deleteBtn {
+            height: 35px;
+            border-radius: 4px;
         }
     </style>
 </head>
@@ -183,7 +190,7 @@
                                </button>
                            </td>
                            <td>
-                               <a th:href="@{/admin/delete/{id}(id=${user.id})}" class="btn btn-danger btn-sm">Delete</a>
+                               <a th:href="@{/admin/delete/{id}(id=${user.id})}" class="btn btn-danger btn-sm deleteBtn">Delete</a>
                            </td>
                        </tr>
                        </tbody>
