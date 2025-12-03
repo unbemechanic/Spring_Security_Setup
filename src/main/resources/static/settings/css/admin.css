@@ -105,3 +105,12 @@ button {
     text-align: center;
     margin-top: 15px;
 }
+.editBtn{
+    background-color: #53abd1 !important;
+    border: none !important;
+    color: white !important;
+    height: 35px !important;
+}
+.remove-user{
+    height: 35px !important;
+}
