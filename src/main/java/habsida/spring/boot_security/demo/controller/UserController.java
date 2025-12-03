@@ -26,8 +26,4 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping
-    public ResponseEntity<Void> userPage(){
-        return ResponseEntity.status(HttpStatus.FOUND).header("Location", "/user/index.html").build();
-    }
 }

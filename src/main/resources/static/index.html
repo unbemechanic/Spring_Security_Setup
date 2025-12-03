@@ -13,6 +13,9 @@
         }
         .login-link {
             background-color: blue;
+            &.register{
+                background-color: #4cd137;
+            }
         }
         .logout-link {
             background-color: red;
@@ -24,6 +27,7 @@
 
 <!-- Static links -->
 <a href="/login" class="login-link">Login</a>
+<a href="/signup/index.html" class="login-link register">Sign up</a>
 
 <p>
     Spring Security is a powerful and customizable authentication and access-control framework for Java applications, particularly Spring-based applications. It provides comprehensive security services, including authentication, authorization, and protection against common attacks like CSRF and session fixation. The framework supports various authentication mechanisms such as in-memory, JDBC, LDAP, and OAuth2. Central to Spring Security is the SecurityContext, which stores details about the authenticated user. AuthenticationManager handles the authentication process, delegating to one or more AuthenticationProviders to verify credentials. Roles and authorities are used to control access to different parts of the application. Spring Security integrates seamlessly with web frameworks like Spring MVC and Spring Boot. It also provides method-level security using annotations like @PreAuthorize and @Secured. Developers can define custom login pages, password encoders, and handlers for successful or failed authentication. The framework promotes secure coding practices and simplifies implementing enterprise-grade security in modern applications.

@@ -17,11 +17,6 @@ public class SignupController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public ResponseEntity<Void> showSignupForm() {
-        return ResponseEntity.status(HttpStatus.FOUND).header("Location", "/signup/index.html").build();
-    }
-
     @PostMapping
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         try{

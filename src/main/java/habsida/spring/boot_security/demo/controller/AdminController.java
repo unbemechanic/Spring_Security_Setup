@@ -21,22 +21,19 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public ResponseEntity<Void> adminPage(){
-        return ResponseEntity.status(HttpStatus.FOUND).header("Location", "/admin/index.html").build();
-    }
 
     @GetMapping("/users")
     public List<User> getAllUsers(){
         return userService.getAllUsers();
     }
+
     @GetMapping("/api/user")
     public ResponseEntity<User> getCurrentUser(@AuthenticationPrincipal User user) {
         return ResponseEntity.ok(user);
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> getById(@PathVariable("id") long id){
+    public ResponseEntity<User> getById(@PathVariable long id){
         User user = userService.getUserById(id);
         if (user == null) {
             return ResponseEntity.notFound().build();
@@ -75,7 +72,10 @@ public class AdminController {
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user){
+    public ResponseEntity<User> updateUser(
+            @PathVariable long id,
+            @RequestBody User user){
+
         Set<Role> roles = new HashSet<>();
         for (Long roleId : user.getRoleIds()){
             Role role = userService.getRoleById(roleId);
